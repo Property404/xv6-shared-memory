@@ -32,7 +32,7 @@ exec(char *path, char **argv)
 	  goto bad;
 
 	// Load program into memory.
-	sz = 0;
+	sz = PGSIZE;// Skip the first page to make null dereference invalid
 	for(i=0, off=elf.phoff; i<elf.phnum; i++, off+=sizeof(ph)){
 	  if(readi(ip, (char*)&ph, off, sizeof(ph)) != sizeof(ph))
 	    goto bad;
@@ -40,7 +40,7 @@ exec(char *path, char **argv)
 	    continue;
 	  if(ph.memsz < ph.filesz)
 	    goto bad;
-	  if((sz = allocuvm(pgdir, sz, ph.va + ph.memsz)) == 0)
+	  if((sz = allocuvm(pgdir, sz, PGSIZE + ph.va + ph.memsz)) == 0)
 	    goto bad;
 	  if(loaduvm(pgdir, (char*)ph.va, ip, ph.offset, ph.filesz) < 0)
 	    goto bad;
