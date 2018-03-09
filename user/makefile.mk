@@ -2,6 +2,7 @@
 # user programs
 USER_PROGS := \
 	bf\
+	bounds\
 	cat\
 	echo\
 	forktest\
@@ -12,9 +13,11 @@ USER_PROGS := \
 	ls\
 	mkdir\
 	null\
+	null2\
 	rm\
 	sh\
 	stressfs\
+	supertest\
 	tester\
 	usertests\
 	wc\

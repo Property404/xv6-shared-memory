@@ -20,6 +20,7 @@
 #include "fcntl.h"
 #include "user.h"
 #include "stat.h"
+#include "assert.h"
 
 /* Define __option_var__ as pointer to the variable declared as
    the option variable */
