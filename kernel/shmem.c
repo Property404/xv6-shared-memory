@@ -7,7 +7,6 @@
 #include "mmu.h"
 #include "proc.h"
 #include "elf.h"
-#define SHMEM_PAGES (4)
 int shmem_count[SHMEM_PAGES];
 void *shmem_addr[SHMEM_PAGES];
 

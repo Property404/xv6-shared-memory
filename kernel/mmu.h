@@ -216,5 +216,8 @@ struct gatedesc {
 	(gate).off_31_16 = (uint)(off) >> 16;                  \
 }
 
+// shared memory stuff
+#define SHMEM_PAGES (4)
+
 #endif // _MMU_H_
 
