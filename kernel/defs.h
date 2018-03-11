@@ -57,6 +57,12 @@ void            ideinit(void);
 void            ideintr(void);
 void            iderw(struct buf*);
 
+// shmem.c 
+void			shmeminit(void);
+void add_shpage_to_proc(int pageno);
+void rm_shpage_from_proc();
+void* shmem_access(int pageno);
+
 // ioapic.c
 void            ioapicenable(int irq, int cpu);
 extern uchar    ioapicid;
@@ -154,6 +160,7 @@ void            uartintr(void);
 void            uartputc(int);
 
 // vm.c
+int				mappages(pde_t *pgdir, void *la, uint size, uint pa, int perm);
 void            seginit(void);
 void            kvmalloc(void);
 void            vmenable(void);

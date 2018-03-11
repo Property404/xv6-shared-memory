@@ -25,6 +25,22 @@ sys_wait(void)
 	return wait();
 }
 
+extern const int*const shmem_count;
+int sys_shmem_count(void)
+{
+	int pageno;
+	if(argint(0, &pageno)<0)
+		return NULL;
+	return shmem_count[pageno];
+}
+int sys_shmem_access(void)
+{
+	int pageno;
+	if(argint(0, &pageno)<0)
+		return NULL;
+	return (int)shmem_access(pageno);
+}
+
 int
 sys_kill(void)
 {

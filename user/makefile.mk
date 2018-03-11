@@ -16,6 +16,7 @@ USER_PROGS := \
 	null2\
 	rm\
 	sh\
+	shmem_test\
 	stressfs\
 	supertest\
 	tester\
