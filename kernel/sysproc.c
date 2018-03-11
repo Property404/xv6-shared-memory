@@ -41,7 +41,7 @@ int sys_shmem_access(void)
 	if(argint(0, &pageno)<0)
 		return NULL;
 
-	if(pageno<0 || pageno>SHMEM_PAGES)
+	if(pageno<0 || pageno>=SHMEM_PAGES)
 		return NULL;
 
 	// Can't open the same page twice

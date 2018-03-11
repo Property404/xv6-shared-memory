@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 # Make a "super" test that runs all tests
 
-TESTS = ["null", "null2"]
+TESTS = [
+        "null", "null2",
+        #"bounds",
+        "shmem_access_invalid_input",
+        "shmem_access_return_value",
+        ]
 
 source = """
 #include "types.h"

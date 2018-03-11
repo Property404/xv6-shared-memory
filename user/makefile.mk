@@ -17,6 +17,8 @@ USER_PROGS := \
 	rm\
 	sh\
 	shmem_test\
+	shmem_access_return_value\
+	shmem_access_invalid_input\
 	stressfs\
 	supertest\
 	tester\
