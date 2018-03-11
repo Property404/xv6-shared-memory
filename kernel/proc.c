@@ -148,7 +148,7 @@ fork(void)
 	// Copy open shared_page references
 	for(int i=0;i<SHMEM_PAGES;i++)
 	{
-		if((proc->shpages>>i) & 0x01)
+		if(proc->shpages[i] != NULL)
 			shmem_access(np, i);
 	}
 

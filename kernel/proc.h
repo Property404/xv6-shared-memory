@@ -75,13 +75,11 @@ struct proc {
 	struct inode *cwd;           // Current directory
 	char name[16];               // Process name (debugging)
 
-	// Each bit represents a shared page
-	// This is not to be treated as a number.
-	// The number of shared pages this process has open is equal
-	// to the number of 1's in this word
-	int shpages;
+	// Holds the virtual address for each shared page
+	// NULL if there's no access to that page
+	void* shpages[SHMEM_PAGES];
 	// For sanity, we also record the number of shared pages
-	int shpages_quantity;
+	uint shpages_quantity;
 };
 
 

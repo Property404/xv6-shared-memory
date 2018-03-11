@@ -59,7 +59,7 @@ void            iderw(struct buf*);
 
 // shmem.c 
 void			shmeminit(void);
-void add_shpage_to_proc(struct proc*, int);
+void add_shpage_to_proc(struct proc*, int, void*);
 void rm_shpage_from_proc(struct proc*);
 void* shmem_access(struct proc*, int);
 

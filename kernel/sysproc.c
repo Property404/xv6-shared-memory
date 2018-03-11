@@ -45,8 +45,8 @@ int sys_shmem_access(void)
 		return NULL;
 
 	// Can't open the same page twice
-	if(proc->shpages & (1<<pageno))
-		return NULL;
+	if(proc->shpages[pageno] != NULL)
+		return (int)(proc->shpages[pageno]);
 
 	return (int)shmem_access(proc, pageno);
 }

@@ -11,11 +11,11 @@ int shmem_count[SHMEM_PAGES];
 void *shmem_addr[SHMEM_PAGES];
 
 // "Officially" add to process and deal with shmem_count
-void add_shpage_to_proc(struct proc* p, int pageno)
+void add_shpage_to_proc(struct proc* p, int pageno, void* la)
 {
 	shmem_count[pageno]++;
 	p->shpages_quantity++;
-	p->shpages|=(1<<pageno);
+	p->shpages[pageno] = la;
 }
 
 // "Officially" remove all shpages from process and deal with shmem_count
@@ -23,13 +23,13 @@ void rm_shpage_from_proc(struct proc* p)
 {
 	for(int i=0;i<SHMEM_PAGES;i++)
 	{
-		if (((p->shpages)>>i) & 0x01)
+		if (p->shpages[i] != NULL)
 		{
+			p->shpages[i] = NULL;
 			shmem_count[i]--;
 		}
 	}
 	p->shpages_quantity = 0;
-	p->shpages = 0;
 }
 
 void shmeminit(void)
@@ -86,6 +86,6 @@ void* shmem_access(struct proc* p, int pageno)
 		return NULL;
 	}
 
-	add_shpage_to_proc(p, pageno);
+	add_shpage_to_proc(p, pageno, virtual_address);
 	return virtual_address;
 }
