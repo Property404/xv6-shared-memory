@@ -40,7 +40,15 @@ int sys_shmem_access(void)
 	int pageno;
 	if(argint(0, &pageno)<0)
 		return NULL;
-	return (int)shmem_access(pageno);
+
+	if(pageno<0 || pageno>SHMEM_PAGES)
+		return NULL;
+
+	// Can't open the same page twice
+	if(proc->shpages & (1<<pageno))
+		return NULL;
+
+	return (int)shmem_access(proc, pageno);
 }
 
 int

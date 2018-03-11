@@ -279,14 +279,16 @@ deallocuvm(pde_t *pgdir, uint oldsz, uint newsz)
 
 // Free a page table and all the physical memory pages
 // in the user part.
+//
+// Skip freeing "pages_to_skip" pages
 void
-freevm(pde_t *pgdir)
+freevm(pde_t *pgdir, int pages_to_skip)
 {
 	uint i;
 
 	if(pgdir == 0)
 	  panic("freevm: no pgdir");
-	deallocuvm(pgdir, USERTOP, 0);
+	deallocuvm(pgdir, USERTOP - pages_to_skip * PGSIZE, 0);
 	for(i = 0; i < NPDENTRIES; i++){
 	  if(pgdir[i] & PTE_P)
 	    kfree((char*)PTE_ADDR(pgdir[i]));
@@ -321,7 +323,7 @@ copyuvm(pde_t *pgdir, uint sz)
 	return d;
 
 bad:
-	freevm(d);
+	freevm(d, 0);
 	return 0;
 }
 

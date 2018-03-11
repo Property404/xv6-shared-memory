@@ -11,25 +11,25 @@ int shmem_count[SHMEM_PAGES];
 void *shmem_addr[SHMEM_PAGES];
 
 // "Officially" add to process and deal with shmem_count
-void add_shpage_to_proc(int pageno)
+void add_shpage_to_proc(struct proc* p, int pageno)
 {
 	shmem_count[pageno]++;
-	proc->shpages_quantity++;
-	proc->shpages|=(1<<pageno);
+	p->shpages_quantity++;
+	p->shpages|=(1<<pageno);
 }
 
 // "Officially" remove all shpages from process and deal with shmem_count
-void rm_shpage_from_proc()
+void rm_shpage_from_proc(struct proc* p)
 {
 	for(int i=0;i<SHMEM_PAGES;i++)
 	{
-		if (((proc->shpages)>>i) & 0x01)
+		if (((p->shpages)>>i) & 0x01)
 		{
 			shmem_count[i]--;
 		}
 	}
-	proc->shpages_quantity = 0;
-	proc->shpages = 0;
+	p->shpages_quantity = 0;
+	p->shpages = 0;
 }
 
 void shmeminit(void)
@@ -45,7 +45,7 @@ void shmeminit(void)
 	}
 }
 
-void* shmem_access(int pageno)
+void* shmem_access(struct proc* p, int pageno)
 {
 	// Invalid page number
 	if(pageno>=SHMEM_PAGES || pageno<0) 
@@ -64,7 +64,7 @@ void* shmem_access(int pageno)
 
 	// Get page directory
 	pde_t* pgdir;
-	pgdir = proc->pgdir;
+	pgdir = p->pgdir;
 	if(pgdir == 0)
 	{
 		cprintf("shmem_access(): pgdir == NULL\n");
@@ -72,7 +72,7 @@ void* shmem_access(int pageno)
 	}
 
 	// Get virtual/linear address
-	void* virtual_address = PGROUNDDOWN(USERTOP - (proc->shpages_quantity+1)*PGSIZE);
+	void* virtual_address = PGROUNDDOWN(USERTOP - (p->shpages_quantity+1)*PGSIZE);
 
 	if(-1 == mappages(
 			pgdir,			// Page directory?!?!?
@@ -86,6 +86,6 @@ void* shmem_access(int pageno)
 		return NULL;
 	}
 
-	add_shpage_to_proc(pageno);
+	add_shpage_to_proc(p, pageno);
 	return virtual_address;
 }

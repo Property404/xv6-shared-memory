@@ -59,9 +59,9 @@ void            iderw(struct buf*);
 
 // shmem.c 
 void			shmeminit(void);
-void add_shpage_to_proc(int pageno);
-void rm_shpage_from_proc();
-void* shmem_access(int pageno);
+void add_shpage_to_proc(struct proc*, int);
+void rm_shpage_from_proc(struct proc*);
+void* shmem_access(struct proc*, int);
 
 // ioapic.c
 void            ioapicenable(int irq, int cpu);
@@ -168,7 +168,7 @@ pde_t*          setupkvm(void);
 char*           uva2ka(pde_t*, char*);
 int             allocuvm(pde_t*, uint, uint);
 int             deallocuvm(pde_t*, uint, uint);
-void            freevm(pde_t*);
+void            freevm(pde_t*, int);
 void            inituvm(pde_t*, char*, uint);
 int             loaduvm(pde_t*, char*, struct inode*, uint, uint);
 pde_t*          copyuvm(pde_t*, uint);

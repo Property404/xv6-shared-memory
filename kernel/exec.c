@@ -87,13 +87,13 @@ exec(char *path, char **argv)
 	proc->tf->eip = elf.entry;  // main
 	proc->tf->esp = sp;
 	switchuvm(proc);
-	freevm(oldpgdir);
+	freevm(oldpgdir, 0);
 
 	return 0;
 
  bad:
 	if(pgdir)
-	  freevm(pgdir);
+	  freevm(pgdir, 0);
 	if(ip)
 	  iunlockput(ip);
 	return -1;

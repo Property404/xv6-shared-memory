@@ -145,6 +145,13 @@ fork(void)
 	np->parent = proc;
 	*np->tf = *proc->tf;
 
+	// Copy open shared_page references
+	for(int i=0;i<SHMEM_PAGES;i++)
+	{
+		if((proc->shpages>>i) & 0x01)
+			shmem_access(np, i);
+	}
+
 	// Clear %eax so that fork returns 0 in the child.
 	np->tf->eax = 0;
 
@@ -223,7 +230,8 @@ wait(void)
 	      pid = p->pid;
 	      kfree(p->kstack);
 	      p->kstack = 0;
-	      freevm(p->pgdir);
+	      freevm(p->pgdir, p->shpages_quantity);
+		  rm_shpage_from_proc(p);
 	      p->state = UNUSED;
 	      p->pid = 0;
 	      p->parent = 0;
