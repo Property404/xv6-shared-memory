@@ -6,6 +6,7 @@ TESTS = [
         #"bounds",
         "shmem_access_invalid_input",
         "shmem_access_return_value",
+        "shmem_access_double_call",
         ]
 
 source = """

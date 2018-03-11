@@ -37,4 +37,12 @@ int p;
         exec("shmem_access_return_value", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_return_value"), exit();
     else
         wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        exec("shmem_access_double_call", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_double_call"), exit();
+    else
+        wait();
 exit();}
