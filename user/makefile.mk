@@ -20,6 +20,9 @@ USER_PROGS := \
 	shmem_access_return_value\
 	shmem_access_invalid_input\
 	shmem_access_double_call\
+	shmem_access_double_call_fork\
+	shmem_access_read_write\
+	shmem_access_communication\
 	stressfs\
 	supertest\
 	tester\

@@ -7,6 +7,9 @@ TESTS = [
         "shmem_access_invalid_input",
         "shmem_access_return_value",
         "shmem_access_double_call",
+        "shmem_access_double_call_fork",
+        "shmem_access_read_write",
+        "shmem_access_communication",
         ]
 
 source = """
@@ -24,7 +27,7 @@ for t in TESTS:
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
-        exec("{t}", argv), printf(2, "Supertest exec %s failed\\n", "{t}"), exit();
+        printf(1, ":{t}\\n"),exec("{t}", argv), printf(2, "Supertest exec %s failed\\n", "{t}"), exit();
     else
         wait();
 """
