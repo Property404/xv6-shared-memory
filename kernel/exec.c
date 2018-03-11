@@ -87,7 +87,9 @@ exec(char *path, char **argv)
 	proc->tf->eip = elf.entry;  // main
 	proc->tf->esp = sp;
 	switchuvm(proc);
-	freevm(oldpgdir, 0);
+	// Remove any page references, but DO NOT FREE
+	freevm(oldpgdir, proc->shpages_quantity);
+	rm_shpage_from_proc(proc);
 
 	return 0;
 
