@@ -26,6 +26,14 @@ int p;
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
+        printf(1, ":bounds\n"),exec("bounds", argv), printf(2, "Supertest exec %s failed\n", "bounds"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
         printf(1, ":shmem_access_invalid_input\n"),exec("shmem_access_invalid_input", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_invalid_input"), exit();
     else
         wait();
