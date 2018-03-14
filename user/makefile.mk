@@ -23,6 +23,8 @@ USER_PROGS := \
 	shmem_access_double_call_fork\
 	shmem_access_read_write\
 	shmem_access_communication\
+	shmem_access_full_address_space\
+	simple_shmem_test\
 	stressfs\
 	supertest\
 	tester\

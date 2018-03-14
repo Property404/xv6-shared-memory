@@ -73,6 +73,8 @@ void* shmem_access(struct proc* p, int pageno)
 
 	// Get virtual/linear address
 	void* virtual_address = PGROUNDDOWN(USERTOP - (p->shpages_quantity+1)*PGSIZE);
+	if((void*)(p->sz) > virtual_address)
+		return NULL;
 
 	if(-1 == mappages(
 			pgdir,			// Page directory?!?!?

@@ -10,6 +10,14 @@ int p;
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
+        printf(1, ":simple_shmem_test\n"),exec("simple_shmem_test", argv), printf(2, "Supertest exec %s failed\n", "simple_shmem_test"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
         printf(1, ":null\n"),exec("null", argv), printf(2, "Supertest exec %s failed\n", "null"), exit();
     else
         wait();
@@ -75,6 +83,14 @@ int p;
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
         printf(1, ":shmem_access_communication\n"),exec("shmem_access_communication", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_communication"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_access_full_address_space\n"),exec("shmem_access_full_address_space", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_full_address_space"), exit();
     else
         wait();
 exit();}

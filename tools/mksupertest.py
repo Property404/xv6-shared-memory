@@ -2,6 +2,7 @@
 # Make a "super" test that runs all tests
 
 TESTS = [
+        "simple_shmem_test",
         "null", "null2",
         "bounds",
         "shmem_access_invalid_input",
@@ -10,6 +11,7 @@ TESTS = [
         "shmem_access_double_call_fork",
         "shmem_access_read_write",
         "shmem_access_communication",
+        "shmem_access_full_address_space",
         ]
 
 source = """
