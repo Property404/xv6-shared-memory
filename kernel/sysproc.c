@@ -76,6 +76,8 @@ sys_sbrk(void)
 	if(argint(0, &n) < 0)
 	  return -1;
 	addr = proc->sz;
+	if(((int)addr + n)>=(USERTOP - PGSIZE*proc->shpages_quantity))
+		return -1;
 	if(growproc(n) < 0)
 	  return -1;
 	return addr;

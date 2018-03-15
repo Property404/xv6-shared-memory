@@ -94,7 +94,6 @@ int p;
     else
         wait();
 
-	/*
     p = fork();
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
@@ -102,7 +101,6 @@ int p;
         printf(1, ":shmem_access_full_address_space2\n"),exec("shmem_access_full_address_space2", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_full_address_space2"), exit();
     else
         wait();
-		*/
 
     p = fork();
     if(p<0)

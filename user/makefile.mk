@@ -18,6 +18,7 @@ USER_PROGS := \
 	tester\
 	usertests\
 	wc\
+	simple_shmem_test\
 	bounds\
 	null\
 	null2\
@@ -30,7 +31,6 @@ USER_PROGS := \
 	shmem_access_communication\
 	shmem_access_full_address_space\
 	shmem_access_full_address_space2\
-	simple_shmem_test\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))

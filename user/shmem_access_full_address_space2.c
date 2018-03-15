@@ -3,8 +3,6 @@
 #include "assert.h"
 int main(int argc, char** argv)
 {
-	printf(1, ">fname:%s\n", argv[0]);
-	/*
 	void *ptr;
 	ptr = shmem_access(0);
 	if(ptr == NULL)
@@ -24,6 +22,5 @@ int main(int argc, char** argv)
 	}
 
 	test_passed();
-	*/
 	exit();
 }
