@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # Make a "super" test that runs all tests
 
+TESTS = [];
+with open("../user/makefile.mk", "r") as f:
+    contents = f.read().replace("\\","");
+    contents = contents[contents.find("wc"):contents.find("zombie")]
+    TESTS = contents.split()[1::];
+"""
 TESTS = [
         "simple_shmem_test",
         "null", "null2",
@@ -12,7 +18,9 @@ TESTS = [
         "shmem_access_read_write",
         "shmem_access_communication",
         "shmem_access_full_address_space",
+        "shmem_access_full_address_space2",
         ]
+"""
 
 source = """
 #include "types.h"

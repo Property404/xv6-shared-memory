@@ -2,7 +2,6 @@
 # user programs
 USER_PROGS := \
 	bf\
-	bounds\
 	cat\
 	echo\
 	forktest\
@@ -12,10 +11,16 @@ USER_PROGS := \
 	ln\
 	ls\
 	mkdir\
-	null\
-	null2\
 	rm\
 	sh\
+	stressfs\
+	supertest\
+	tester\
+	usertests\
+	wc\
+	bounds\
+	null\
+	null2\
 	shmem_test\
 	shmem_access_return_value\
 	shmem_access_invalid_input\
@@ -24,12 +29,8 @@ USER_PROGS := \
 	shmem_access_read_write\
 	shmem_access_communication\
 	shmem_access_full_address_space\
+	shmem_access_full_address_space2\
 	simple_shmem_test\
-	stressfs\
-	supertest\
-	tester\
-	usertests\
-	wc\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))
