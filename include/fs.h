@@ -45,7 +45,8 @@ struct dinode {
 #define BBLOCK(b, ninodes) (b/BPB + (ninodes)/IPB + 3)
 
 // Directory is a file containing a sequence of dirent structures.
-#define DIRSIZ 14
+//#define DIRSIZ 14
+#define DIRSIZ (62)
 
 struct dirent {
 	ushort inum;

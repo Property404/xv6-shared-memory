@@ -1,8 +1,10 @@
 #include "types.h"
 #include "user.h"
 #include "assert.h"
-int main()
+int main(int argc, char** argv)
 {
+	printf(1, ">fname:%s\n", argv[0]);
+	/*
 	void *ptr;
 	ptr = shmem_access(0);
 	if(ptr == NULL)
@@ -22,5 +24,6 @@ int main()
 	}
 
 	test_passed();
+	*/
 	exit();
 }
