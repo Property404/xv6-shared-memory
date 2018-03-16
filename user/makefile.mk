@@ -17,6 +17,8 @@ USER_PROGS := \
 	supertest\
 	tester\
 	usertests\
+	shmem_access_exec_helper\
+	shmem_access_exec2_helper\
 	wc\
 	simple_shmem_test\
 	bounds\
@@ -31,6 +33,9 @@ USER_PROGS := \
 	shmem_access_communication\
 	shmem_access_full_address_space\
 	shmem_access_full_address_space2\
+	shmem_access_persistent\
+	shmem_access_exec\
+	shmem_access_exec2\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))

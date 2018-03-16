@@ -10,6 +10,14 @@ int p;
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
+        printf(1, ":simple_shmem_test\n"),exec("simple_shmem_test", argv), printf(2, "Supertest exec %s failed\n", "simple_shmem_test"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
         printf(1, ":bounds\n"),exec("bounds", argv), printf(2, "Supertest exec %s failed\n", "bounds"), exit();
     else
         wait();
@@ -106,7 +114,23 @@ int p;
     if(p<0)
         printf(2, "Supertest fork failed"), exit();
     else if(p==0)
-        printf(1, ":simple_shmem_test\n"),exec("simple_shmem_test", argv), printf(2, "Supertest exec %s failed\n", "simple_shmem_test"), exit();
+        printf(1, ":shmem_access_persistent\n"),exec("shmem_access_persistent", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_persistent"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_access_exec\n"),exec("shmem_access_exec", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_exec"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_access_exec2\n"),exec("shmem_access_exec2", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_exec2"), exit();
     else
         wait();
 exit();}

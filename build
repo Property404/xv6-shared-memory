@@ -1,0 +1,1 @@
+cd tools && ./mksupertest.py && cd .. &&  make
