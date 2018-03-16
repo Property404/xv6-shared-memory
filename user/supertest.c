@@ -133,4 +133,20 @@ int p;
         printf(1, ":shmem_access_exec2\n"),exec("shmem_access_exec2", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_exec2"), exit();
     else
         wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_access_exec2\n"),exec("shmem_access_exec2", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_exec2"), exit();
+    else
+        wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_access_syscall_args\n"),exec("shmem_access_syscall_args", argv), printf(2, "Supertest exec %s failed\n", "shmem_access_syscall_args"), exit();
+    else
+        wait();
 exit();}
