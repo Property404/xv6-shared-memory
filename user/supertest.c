@@ -197,4 +197,12 @@ int p;
         printf(1, ":shmem_count_fork\n"),exec("shmem_count_fork", argv), printf(2, "Supertest exec %s failed\n", "shmem_count_fork"), exit();
     else
         wait();
+
+    p = fork();
+    if(p<0)
+        printf(2, "Supertest fork failed"), exit();
+    else if(p==0)
+        printf(1, ":shmem_count_exec\n"),exec("shmem_count_exec", argv), printf(2, "Supertest exec %s failed\n", "shmem_count_exec"), exit();
+    else
+        wait();
 exit();}

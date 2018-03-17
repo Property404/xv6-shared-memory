@@ -43,6 +43,7 @@ USER_PROGS := \
 	shmem_count_one\
 	shmem_count_one2\
 	shmem_count_fork\
+	shmem_count_exec\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))

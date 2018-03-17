@@ -1,1 +1,1 @@
-cd tools && ./mksupertest.py && cd .. &&  make
+cd tools && ./mksupertest.py && cd .. &&  make $1

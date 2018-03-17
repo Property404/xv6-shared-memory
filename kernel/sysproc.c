@@ -31,7 +31,7 @@ int sys_shmem_count(void)
 	int pageno;
 	if(argint(0, &pageno)<0)
 		return -1;
-	if(pageno<0 || pageno>SHMEM_PAGES)
+	if(pageno<0 || pageno>=SHMEM_PAGES)
 		return -1;
 	return shmem_count[pageno];
 }
