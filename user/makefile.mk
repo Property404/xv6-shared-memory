@@ -41,6 +41,9 @@ USER_PROGS := \
 	shmem_count_invalid_input\
 	shmem_count_zero\
 	shmem_count_zero2\
+	shmem_count_one\
+	shmem_count_one2\
+	shmem_count_fork\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))
