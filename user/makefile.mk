@@ -38,6 +38,9 @@ USER_PROGS := \
 	shmem_access_exec2\
 	shmem_access_exec2\
 	shmem_access_syscall_args\
+	shmem_count_invalid_input\
+	shmem_count_zero\
+	shmem_count_zero2\
 	zombie
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))
