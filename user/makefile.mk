@@ -1,7 +1,6 @@
 
 # user programs
 USER_PROGS := \
-	bf\
 	cat\
 	echo\
 	forktest\
