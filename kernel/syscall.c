@@ -14,11 +14,15 @@
 // to a saved program counter, and then the first argument.
 
 // Fetch the int at addr from process p.
-int
-fetchint(struct proc *p, uint addr, int *ip)
+int fetchint(struct proc *p, uint addr, int *ip)
 {
-	if(addr >= p->sz || addr+4 > p->sz)
-	  return -1;
+	if((addr >= p->sz || addr+4 > p->sz) &&
+			// Allow access within a shared page
+			(addr < USERTOP - p->shpages_quantity*PGSIZE || addr >= USERTOP))
+	{
+		cprintf(":((\n");
+		return -1;
+	}
 	*ip = *(int*)(addr);
 	return 0;
 }
@@ -26,23 +30,27 @@ fetchint(struct proc *p, uint addr, int *ip)
 // Fetch the nul-terminated string at addr from process p.
 // Doesn't actually copy the string - just sets *pp to point at it.
 // Returns length of string, not including nul.
-int
-fetchstr(struct proc *p, uint addr, char **pp)
+int fetchstr(struct proc *p, uint addr, char **pp)
 {
 	char *s, *ep;
+	const uint shmem_bottom = USERTOP -
+		p->shpages_quantity * PGSIZE;
 
-	if(addr >= p->sz)
-	  return -1;
+	if((addr >= p->sz) && (addr < shmem_bottom))
+	{
+		return -1;
+	}
+
 	*pp = (char*)addr;
-	ep = (char*)p->sz;
+	ep = addr<shmem_bottom?(char*)p->sz:(char*)USERTOP;
 	for(s = *pp; s < ep; s++)
-	  if(*s == 0)
-	    return s - *pp;
+		if(*s == 0)
+			return s - *pp;
 	return -1;
 }
 
 // Fetch the nth 32-bit system call argument.
-int
+	int
 argint(int n, int *ip)
 {
 	return fetchint(proc, proc->tf->esp + 4 + 4*n, ip);
@@ -51,15 +59,18 @@ argint(int n, int *ip)
 // Fetch the nth word-sized system call argument as a pointer
 // to a block of memory of size n bytes.  Check that the pointer
 // lies within the process address space.
-int
+	int
 argptr(int n, char **pp, int size)
 {
+	const uint shmem_bottom = USERTOP -
+		proc->shpages_quantity * PGSIZE;
 	int i;
-	
+
 	if(argint(n, &i) < 0)
-	  return -1;
-	if((uint)i >= proc->sz || (uint)i+size > proc->sz)
-	  return -1;
+		return -1;
+	// Adjusted for shared pages
+	if(((uint)i >= proc->sz || (uint)i+size > proc->sz) && ((uint)i+size < shmem_bottom || (uint)i+size > USERTOP))
+		return -1;
 	*pp = (char*)i;
 	return 0;
 }
@@ -68,12 +79,15 @@ argptr(int n, char **pp, int size)
 // Check that the pointer is valid and the string is nul-terminated.
 // (There is no shared writable memory, so the string can't change
 // between this check and being used by the kernel.)
-int
+	int
 argstr(int n, char **pp)
 {
 	int addr;
 	if(argint(n, &addr) < 0)
-	  return -1;
+	{
+		cprintf("Failing at argstr:argint\n");
+		return -1;
+	}
 	return fetchstr(proc, addr, pp);
 }
 
@@ -82,44 +96,44 @@ argstr(int n, char **pp)
 
 // array of function pointers to handlers for all the syscalls
 static int (*syscalls[])(void) = {
-[SYS_chdir]   sys_chdir,
-[SYS_close]   sys_close,
-[SYS_dup]     sys_dup,
-[SYS_exec]    sys_exec,
-[SYS_exit]    sys_exit,
-[SYS_fork]    sys_fork,
-[SYS_fstat]   sys_fstat,
-[SYS_getpid]  sys_getpid,
-[SYS_kill]    sys_kill,
-[SYS_link]    sys_link,
-[SYS_mkdir]   sys_mkdir,
-[SYS_mknod]   sys_mknod,
-[SYS_open]    sys_open,
-[SYS_pipe]    sys_pipe,
-[SYS_read]    sys_read,
-[SYS_sbrk]    sys_sbrk,
-[SYS_sleep]   sys_sleep,
-[SYS_unlink]  sys_unlink,
-[SYS_wait]    sys_wait,
-[SYS_write]   sys_write,
-[SYS_uptime]  sys_uptime,
-[SYS_shmem_access]  sys_shmem_access,
-[SYS_shmem_count]  sys_shmem_count,
+	[SYS_chdir]   sys_chdir,
+	[SYS_close]   sys_close,
+	[SYS_dup]     sys_dup,
+	[SYS_exec]    sys_exec,
+	[SYS_exit]    sys_exit,
+	[SYS_fork]    sys_fork,
+	[SYS_fstat]   sys_fstat,
+	[SYS_getpid]  sys_getpid,
+	[SYS_kill]    sys_kill,
+	[SYS_link]    sys_link,
+	[SYS_mkdir]   sys_mkdir,
+	[SYS_mknod]   sys_mknod,
+	[SYS_open]    sys_open,
+	[SYS_pipe]    sys_pipe,
+	[SYS_read]    sys_read,
+	[SYS_sbrk]    sys_sbrk,
+	[SYS_sleep]   sys_sleep,
+	[SYS_unlink]  sys_unlink,
+	[SYS_wait]    sys_wait,
+	[SYS_write]   sys_write,
+	[SYS_uptime]  sys_uptime,
+	[SYS_shmem_access]  sys_shmem_access,
+	[SYS_shmem_count]  sys_shmem_count,
 };
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)
 // is valid and then calls the appropriate handler for the syscall.
-void
+	void
 syscall(void)
 {
 	int num;
-	
+
 	num = proc->tf->eax;
 	if(num > 0 && num < NELEM(syscalls) && syscalls[num] != NULL) {
-	  proc->tf->eax = syscalls[num]();
+		proc->tf->eax = syscalls[num]();
 	} else {
-	  cprintf("%d %s: unknown sys call %d\n",
-	          proc->pid, proc->name, num);
-	  proc->tf->eax = -1;
+		cprintf("%d %s: unknown sys call %d\n",
+				proc->pid, proc->name, num);
+		proc->tf->eax = -1;
 	}
 }
