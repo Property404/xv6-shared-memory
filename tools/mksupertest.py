@@ -6,21 +6,6 @@ with open("../user/makefile.mk", "r") as f:
     contents = f.read().replace("\\","");
     contents = contents[contents.find("wc"):contents.find("zombie")]
     TESTS = contents.split()[1::];
-"""
-TESTS = [
-        "simple_shmem_test",
-        "null", "null2",
-        "bounds",
-        "shmem_access_invalid_input",
-        "shmem_access_return_value",
-        "shmem_access_double_call",
-        "shmem_access_double_call_fork",
-        "shmem_access_read_write",
-        "shmem_access_communication",
-        "shmem_access_full_address_space",
-        "shmem_access_full_address_space2",
-        ]
-"""
 
 source = """
 #include "types.h"
